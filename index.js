@@ -3,8 +3,8 @@ const fs = require("mz/fs");
 const PATH = "C:/Users/win10/Desktop/Fisher";
 const methodSignatureRegex = /^([ \t]*)([A-z0-9]+|([A-z0-9](\||))+) ([A-z0-9]*)(\(| \()((([A-z](\||))+ [A-z]+(, |,|))*|| )\) {/g;
 const classRegex = /class [A-z0-9]*/g;
-const classFieldsRegex = /([ \t]*)([A-z0-9]+)(?<!return) ([A-z0-9]*)\;/g;
-const protectedClassFieldsRegex = /([ \t]*)protected ([A-z0-9]*) ([A-z0-9]*)\;/g;
+const classFieldsRegex = /^([ \t]*)([A-z0-9]+)(?<!return)(?<!inherit) ([A-z0-9]*)\;$/g;
+const protectedClassFieldsRegex = /^([ \t]*)protected ([A-z0-9]*) ([A-z0-9]*)\;$/g;
 
 (async () => {
   try {
@@ -66,18 +66,22 @@ function constructClassFields(data) {
   let str = [
     "#### Class variables",
     "```pike",
-    "// Public"
   ];
-
+  if (data.protectedClassFields.length)
+    str.push("// Public");
   data.classFields.forEach(variable => {
     str.push(variable.trim() + "");
   });
 
+  if (data.protectedClassFields.length != 0) {
+    str.push("// Private");
+  }
   data.protectedClassFields.forEach(variable => {
     str.push(variable.trim() + "");
+
   });
-  
-  str[str.length - 1] = "```"
+
+  str.push("```")
 
   return str.join("\n");
 }

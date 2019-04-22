@@ -6,12 +6,12 @@
 // Public
 WSHandler wsHandler;
 Client client;
-protected GuildCacher guildCacher;
-protected RestUtils restUtils;
 array diffs;
 Emoji cached;
 Emoji newEmoji;
+// Private
 protected GuildCacher guildCacher;
+protected RestUtils restUtils;
 ```
 #### Method Signatures
 
@@ -117,7 +117,6 @@ void userUpdate(mapping data);
 ### EventHandlers
 #### Class variables
 ```pike
-// Public
 array ready;
 array channelCreate;
 array channelUpdate;
@@ -151,6 +150,7 @@ array typingStart;
 array userUpdate;
 array voiceStateUpdate;
 array voiceServerUpdate;
+array webhooksUpdate;
 ```
 #### Method Signatures
 
@@ -160,8 +160,8 @@ void create();
 ### GatewayDispatcher
 #### Class variables
 ```pike
-// Public
 WSHandler wsHandler;
+Client client;
 ```
 #### Method Signatures
 
@@ -183,11 +183,11 @@ void handleReconnectionRequest();
 ### WSHandler
 #### Class variables
 ```pike
-// Public
 Client client;
 WSManager wsManager;
 EventDispatcher eventDispatcher;
 GatewayDispatcher gatewayDispatcher;
+int sequence;
 ```
 #### Method Signatures
 
@@ -205,15 +205,13 @@ Client client;
 string wsSessionID;
 int heartbeat_interval;
 int perv_heartbeat_ack;
+int sequence;
+WSHandler wsHandler;
+mapping payload;
+// Private
 protected int curr_heartbeat_time;
 protected bool resuming;
 protected bool reconnecting;
-int sequence;
-WSHandler wsHandler;
-Protocols.WebSocket.Connection|Val.Null ws;
-mapping payload;
-protected int curr_heartbeat_time;
-protected bool resuming;
 ```
 #### Method Signatures
 
@@ -232,18 +230,12 @@ void heartbeat(int ms);
 ### Activity
 #### Class variables
 ```pike
-// Public
 string name;
-int type; // see activity type docs
 string url;
 ActivityTimestamps timestamps;
 string applicationId;
-string|Val.Null details;
-string|Val.Null state;
-ActivityParty|Val.Null party;
-ActivityAssets|Val.Null assets;
-ActivitySecrets|Val.Null secrets;
 bool instance;
+int flags;
 ```
 #### Method Signatures
 
@@ -253,10 +245,10 @@ void create(mapping data);
 ### ActivityAssets
 #### Class variables
 ```pike
-// Public
 string largeImage;
 string largeText;
 string smallImage;
+string smallText;
 ```
 #### Method Signatures
 
@@ -266,8 +258,8 @@ void create(mapping data);
 ### ActivityParty
 #### Class variables
 ```pike
-// Public
 string id;
+array size;
 ```
 #### Method Signatures
 
@@ -277,9 +269,9 @@ void create(mapping data);
 ### ActivitySecrets
 #### Class variables
 ```pike
-// Public
 string join;
 string spectate;
+string match;
 ```
 #### Method Signatures
 
@@ -289,8 +281,8 @@ void create(mapping data);
 ### ActivityTimestamps
 #### Class variables
 ```pike
-// Public
 int start;
+int end;
 ```
 #### Method Signatures
 
@@ -306,8 +298,7 @@ string filename;
 int size;
 string url;
 string proxyUrl;
-int|Val.Null height;
-int|Val.Null width;
+// Private
 protected Client client;
 ```
 #### Method Signatures
@@ -318,8 +309,8 @@ void create(Client c, mapping data);
 ### Channel
 #### Class variables
 ```pike
-// Public
 string id;
+int type;
 ```
 #### Method Signatures
 
@@ -329,7 +320,6 @@ void create(mapping data);
 ### ChannelCategory
 #### Class variables
 ```pike
-// Public
 ```
 #### Method Signatures
 
@@ -339,11 +329,11 @@ void create(Client c, mapping data, void|Guild g);
 ### ChannelDM
 #### Class variables
 ```pike
-// Public
 string lastMessageId;
 int type;
 string id;
 Gallon recipients;
+Gallon messages;
 ```
 #### Method Signatures
 
@@ -353,10 +343,9 @@ void create(Client c, mapping data);
 ### ChannelVoice
 #### Class variables
 ```pike
-// Public
-inherit GuildChannel;
 bool nsfw;
 int userLimit;
+int bitrate;
 ```
 #### Method Signatures
 
@@ -375,7 +364,7 @@ bool verified;
 bool bot;
 bool mfaEnabled;
 mapping presence;
-string | Val.Null email;
+// Private
 protected Client client;
 ```
 #### Method Signatures
@@ -396,11 +385,7 @@ void newPresence(mapping options);
 string name;
 Gallon roles;
 Guild guild;
-bool|Val.Null requireColons;
-string|Val.Null id;
-User|Val.Null user;
-bool|Val.Null managed;
-bool|Val.Null animated;
+// Private
 protected Client client;
 ```
 #### Method Signatures
@@ -418,16 +403,6 @@ string ownerId;
 string region;
 string widgetChannelId;
 string joinedAt;
-string|Val.Null icon;
-string|Val.Null splash;
-string|Val.Null afkChannelId;
-string|Val.Null embedChannelId;
-string|Val.Null applicationId;
-string|Val.Null systemChannelId;
-string|Val.Null banner;
-string|Val.Null description;
-string|Val.Null vanityUrlCode;
-int|Val.Null maxPresences;
 bool embedEnabled;
 bool owner;
 bool widgetEnabled;
@@ -447,6 +422,7 @@ Gallon voiceStates;
 Gallon members;
 Gallon channels;
 Gallon presences;
+// Private
 protected Client client;
 ```
 #### Method Signatures
@@ -457,7 +433,6 @@ void create(Client c, mapping data);
 ### GuildIntegration
 #### Class variables
 ```pike
-// Public
 string id;
 string name;
 string type;
@@ -469,6 +444,7 @@ int expireBehavior;
 int expireGracePeriod;
 User user;
 mapping account;
+string syncedAt;
 ```
 #### Method Signatures
 
@@ -480,13 +456,13 @@ void create(Client client, mapping data);
 ```pike
 // Public
 User user;
-string|Val.Null nickname;
 Gallon roles;
 string joinedAt;
 bool deafend;
 bool muted;
 Presence presence;
 Guild guild;
+// Private
 protected Client client;
 ```
 #### Method Signatures
@@ -498,10 +474,10 @@ void create(Client c, Guild g, mapping data);
 #### Class variables
 ```pike
 // Public
-inherit GuildChannel;
 string topic;
 string lastMessageId;
 Gallon messages;
+// Private
 protected Client client;
 ```
 #### Method Signatures
@@ -512,20 +488,15 @@ void create(Client c, mapping data, void|Guild g);
 ### Invite
 #### Class variables
 ```pike
-// Public
 string code;
-Guild|Val.Null guild;
 mixed channel;
-User|Val.Null targetUser;
-int|Val.Null targetUserType;
-int|Val.Null approximatePresenceCount;
-int|Val.Null approximateMemberCount;
 User inviter;
 int uses;
 int maxUses;
 int maxAge;
 bool temporary;
 string createdAt;
+bool revoked;
 ```
 #### Method Signatures
 
@@ -535,24 +506,7 @@ void create(Client client, mapping data);
 ### Message
 #### Class variables
 ```pike
-// Public
-string|Val.Null id;
-GuildTextChannel channel;// TO DO TEXTCHANNEL
-User|Val.Null author;
-string|Val.Null content;
-string|Val.Null timestamp;
-bool|Val.Null tts;
-bool|Val.Null mentionEveryone;
-Gallon|Val.Null mentions; // EVERYONE, USERS, ROLES
-Gallon|Val.Null attachments;
 array embeds;
-Gallon|Val.Null reactions;
-GuildMember|Val.Null member;
-Guild|Val.Null guild;
-string|Val.Null editedTimestamp;
-string|Val.Null nonce;
-string|Val.Null webhookId;
-bool|Val.Null pinned;
 ```
 #### Method Signatures
 
@@ -567,7 +521,7 @@ int allow;
 int deny;
 string type;
 string id;
-GuildMember|Role|Val.Null overwriteable;
+// Private
 protected Client client;
 ```
 #### Method Signatures
@@ -578,7 +532,6 @@ void create(Client client, mapping data, Guild|void guild);
 ### Presence
 #### Class variables
 ```pike
-// Public
 Activity game;
 ```
 #### Method Signatures
@@ -593,8 +546,8 @@ void create(mapping data);
 int count;
 bool me;
 ReactionEmoji emoji;
-User|string user;
 Message message;
+// Private
 protected Client client;
 ```
 #### Method Signatures
@@ -606,10 +559,10 @@ void create(Client c, Message msg, mapping data);
 #### Class variables
 ```pike
 // Public
-string|Val.Null id;
 string name;
 bool animated;
 Reaction reaction;
+// Private
 protected Client client;
 ```
 #### Method Signatures
@@ -628,6 +581,7 @@ bool optimal;
 bool deprecated;
 bool custom;
 Guild guild;
+// Private
 protected Client client;
 ```
 #### Method Signatures
@@ -647,9 +601,9 @@ bool mentionable;
 int color;
 int position;
 int permissions;
+// Private
 protected Client client;
 protected Guild guild;
-protected Client client;
 ```
 #### Method Signatures
 
@@ -667,13 +621,13 @@ string id;
 string username;
 string discriminator;
 string locale;
-string|Val.Null avatar;
 string email;
 bool bot;
 bool mfa_enabled;
 bool verified;
 int flags;
 int premiumType;
+// Private
 protected Client client;
 ```
 #### Method Signatures
@@ -688,16 +642,11 @@ string whenCreated();
 #### Class variables
 ```pike
 // Public
-inherit RestUtils;
-Protocols.HTTP.Session HTTPSession;
-protected Thread.Mutex globalMutex;
+int retry_after;
+// Private
 protected mapping mutexes;
 protected Client client;
 protected RestUtils restUtils;
-int retry_after;
-Protocols.HTTP.Query response;
-protected mapping mutexes;
-protected Client client;
 ```
 #### Method Signatures
 
@@ -875,19 +824,6 @@ void leaveGuild(string guildId);
 ### EmbedConstructor
 #### Class variables
 ```pike
-// Public
-string|Val.Null title;
-string|Val.Null type;
-string|Val.Null description;
-string|Val.Null url;
-string|Val.Null timestamp;
-int|Val.Null color;
-mapping|Val.Null footer;
-mapping|Val.Null image;
-mapping|Val.Null thumbnail;
-mapping|Val.Null video;
-mapping|Val.Null provider;
-mapping|Val.Null author;
 ```
 #### Method Signatures
 
@@ -939,8 +875,8 @@ mapping construct();
 ### EventUtils
 #### Class variables
 ```pike
-// Public
 EventHandlers handlers;
+Client eventsClient;
 ```
 #### Method Signatures
 
@@ -950,8 +886,7 @@ void handle(string event, function handler);
 ### Gallon
 #### Class variables
 ```pike
-// Public
-inherit Mapping;
+mapping iterable;
 ```
 #### Method Signatures
 
@@ -991,9 +926,9 @@ mixed lookFor(string property, mixed value);
 ### Misc
 #### Class variables
 ```pike
-// Public
 mapping clonedData;
 bool first;
+bool second;
 ```
 #### Method Signatures
 
