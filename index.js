@@ -3,7 +3,7 @@ const fs = require("mz/fs");
 const PATH = "C:/Users/win10/Desktop/Fisher";
 const methodSignatureRegex = /^([ \t]*)([A-z0-9]+|([A-z0-9](\||))+) ([A-z0-9]*)(\(| \()((([A-z](\||))+ [A-z]+(, |,|))*|| )\) {/g;
 const classRegex = /class [A-z0-9]*/g;
-const classFieldsRegex = /([ \t]*)([A-z0-9]*) ([A-z0-9]*)\;/g;
+const classFieldsRegex = /([ \t]*)([A-z0-9]+)(?<!return) ([A-z0-9]*)\;/g;
 const protectedClassFieldsRegex = /([ \t]*)protected ([A-z0-9]*) ([A-z0-9]*)\;/g;
 
 (async () => {
@@ -35,7 +35,8 @@ async function metaData() {
       let separateLines = readableFile.toString().split("\r\n");
       let toWrite = {
         "class": pikeFile.replace(".pike", ""),
-        "signatures": separateLines.filter(line => line.match(methodSignatureRegex))
+        "signatures": separateLines.filter(line => line.match(methodSignatureRegex)),
+        "classFields": separateLines.filter(line => line.match(classFieldsRegex))
       };
 
       return toWrite;
@@ -45,10 +46,11 @@ async function metaData() {
 
 function constructReadme(data) {
   if (!data.signatures.length) return "";
-  let start = `\n### ${data.class}`;
+  let start = `\n### ${data.class}\n`;
   // console.log(data);
+  start += constructClassFields(data.classFields);
   data.signatures.forEach(line => {
-    start = start + `\n${constructCodeBlock(line)}`;
+    start += `\n${constructCodeBlock(line)}`;
   });
 
   return start;
@@ -56,6 +58,19 @@ function constructReadme(data) {
 
 function constructCodeBlock(data) {
   return "```pike\n"+data.trim().replace(" {", ";")+"\n```";
+}
+
+function constructClassFields(data) {
+  let str = [
+    "```pike",
+  ];
+
+  data.forEach(variable => {
+    str.push(variable.trim() + "");
+  })
+  str[str.length - 1] = "```"
+
+  return str.join("\n");
 }
 
 function constructHeaders(functionName) {

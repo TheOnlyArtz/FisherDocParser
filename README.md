@@ -1,6 +1,14 @@
 
 ### EventDispatcher
 ```pike
+WSHandler wsHandler;
+Client client;
+protected GuildCacher guildCacher;
+protected RestUtils restUtils;
+array diffs;
+Emoji cached;
+```
+```pike
 void create(WSHandler w);
 ```
 ```pike
@@ -101,9 +109,47 @@ void userUpdate(mapping data);
 ```
 ### EventHandlers
 ```pike
+array ready;
+array channelCreate;
+array channelUpdate;
+array channelDelete;
+array channelPinsUpdate;
+array guildCreate;
+array guildUpdate;
+array guildDelete;
+array guildBanAdd;
+array guildBanRemove;
+array guildEmojiUpdate;
+array guildEmojiRemove;
+array guildEmojiAdd;
+array guildIntegrationUpdate;
+array guildMemberAdd;
+array guildMemberRemove;
+array guildMembersChunk;
+array guildMemberUpdate;
+array guildRoleCreate;
+array guildRoleDelete;
+array guildRoleUpdate;
+array messageCreate;
+array messageUpdate;
+array messageDelete;
+array messageDeleteBulk;
+array messageReactionAdd;
+array messageReactionRemove;
+array messageReactionRemoveAll;
+array presenceUpdate;
+array typingStart;
+array userUpdate;
+array voiceStateUpdate;
+array voiceServerUpdate;
+```
+```pike
 void create();
 ```
 ### GatewayDispatcher
+```pike
+WSHandler wsHandler;
+```
 ```pike
 void create(WSHandler w);
 ```
@@ -121,12 +167,30 @@ void handleReconnectionRequest();
 ```
 ### WSHandler
 ```pike
+Client client;
+WSManager wsManager;
+EventDispatcher eventDispatcher;
+GatewayDispatcher gatewayDispatcher;
+```
+```pike
 void create(WSManager w);
 ```
 ```pike
 void handle(mapping a);
 ```
 ### WSManager
+```pike
+Client client;
+string wsSessionID;
+int heartbeat_interval;
+int perv_heartbeat_ack;
+protected int curr_heartbeat_time;
+protected bool resuming;
+protected bool reconnecting;
+int sequence;
+WSHandler wsHandler;
+Protocols.WebSocket.Connection|Val.Null ws;
+```
 ```pike
 void create(Client c);
 ```
@@ -141,45 +205,109 @@ void heartbeat(int ms);
 ```
 ### Activity
 ```pike
+string name;
+int type; // see activity type docs
+string url;
+ActivityTimestamps timestamps;
+string applicationId;
+string|Val.Null details;
+string|Val.Null state;
+ActivityParty|Val.Null party;
+ActivityAssets|Val.Null assets;
+ActivitySecrets|Val.Null secrets;
+bool instance;
+```
+```pike
 void create(mapping data);
 ```
 ### ActivityAssets
+```pike
+string largeImage;
+string largeText;
+string smallImage;
+```
 ```pike
 void create(mapping data);
 ```
 ### ActivityParty
 ```pike
+string id;
+```
+```pike
 void create(mapping data);
 ```
 ### ActivitySecrets
+```pike
+string join;
+string spectate;
+```
 ```pike
 void create(mapping data);
 ```
 ### ActivityTimestamps
 ```pike
+int start;
+```
+```pike
 void create(mapping data);
 ```
 ### Attachment
+```pike
+string id;
+string filename;
+int size;
+string url;
+string proxyUrl;
+int|Val.Null height;
+int|Val.Null width;
+```
 ```pike
 void create(Client c, mapping data);
 ```
 ### Channel
 ```pike
+string id;
+```
+```pike
 void create(mapping data);
 ```
 ### ChannelCategory
+```pike
+```
 ```pike
 void create(Client c, mapping data, void|Guild g);
 ```
 ### ChannelDM
 ```pike
+string lastMessageId;
+int type;
+string id;
+Gallon recipients;
+```
+```pike
 void create(Client c, mapping data);
 ```
 ### ChannelVoice
 ```pike
+inherit GuildChannel;
+bool nsfw;
+int userLimit;
+```
+```pike
 void create(Client c, mapping data, void|Guild g);
 ```
 ### ClientUser
+```pike
+string avatar;
+string discriminator;
+string id;
+string username;
+bool verified;
+bool bot;
+bool mfaEnabled;
+mapping presence;
+string | Val.Null email;
+```
 ```pike
 void create(Client c, mapping data);
 ```
@@ -191,53 +319,206 @@ void newPresence(mapping options);
 ```
 ### Emoji
 ```pike
+string name;
+Gallon roles;
+Guild guild;
+bool|Val.Null requireColons;
+string|Val.Null id;
+User|Val.Null user;
+bool|Val.Null managed;
+bool|Val.Null animated;
+```
+```pike
 void create(Client c, Guild g, mapping data);
 ```
 ### Guild
+```pike
+string id;
+string name;
+string ownerId;
+string region;
+string widgetChannelId;
+string joinedAt;
+string|Val.Null icon;
+string|Val.Null splash;
+string|Val.Null afkChannelId;
+string|Val.Null embedChannelId;
+string|Val.Null applicationId;
+string|Val.Null systemChannelId;
+string|Val.Null banner;
+string|Val.Null description;
+string|Val.Null vanityUrlCode;
+int|Val.Null maxPresences;
+bool embedEnabled;
+bool owner;
+bool widgetEnabled;
+bool large;
+bool unavailable;
+int permissions;
+int afkTimeout;
+int verificationLevel;
+int defaultMessageNotifications;
+int mfaLevel;
+int explicitContentFilter;
+int memberCount;
+int maxMembers;
+Gallon roles;
+Gallon emojis;
+Gallon voiceStates;
+Gallon members;
+Gallon channels;
+Gallon presences;
+```
 ```pike
 void create(Client c, mapping data);
 ```
 ### GuildIntegration
 ```pike
+string id;
+string name;
+string type;
+bool enabled;
+bool syncing;
+string roleId;
+Role role;
+int expireBehavior;
+int expireGracePeriod;
+User user;
+mapping account;
+```
+```pike
 void create(Client client, mapping data);
 ```
 ### GuildMember
+```pike
+User user;
+string|Val.Null nickname;
+Gallon roles;
+string joinedAt;
+bool deafend;
+bool muted;
+Presence presence;
+Guild guild;
+```
 ```pike
 void create(Client c, Guild g, mapping data);
 ```
 ### GuildTextChannel
 ```pike
+inherit GuildChannel;
+string topic;
+string lastMessageId;
+Gallon messages;
+```
+```pike
 void create(Client c, mapping data, void|Guild g);
 ```
 ### Invite
+```pike
+string code;
+Guild|Val.Null guild;
+mixed channel;
+User|Val.Null targetUser;
+int|Val.Null targetUserType;
+int|Val.Null approximatePresenceCount;
+int|Val.Null approximateMemberCount;
+User inviter;
+int uses;
+int maxUses;
+int maxAge;
+bool temporary;
+string createdAt;
+```
 ```pike
 void create(Client client, mapping data);
 ```
 ### Message
 ```pike
+string|Val.Null id;
+GuildTextChannel channel;// TO DO TEXTCHANNEL
+User|Val.Null author;
+string|Val.Null content;
+string|Val.Null timestamp;
+bool|Val.Null tts;
+bool|Val.Null mentionEveryone;
+Gallon|Val.Null mentions; // EVERYONE, USERS, ROLES
+Gallon|Val.Null attachments;
+array embeds;
+Gallon|Val.Null reactions;
+GuildMember|Val.Null member;
+Guild|Val.Null guild;
+string|Val.Null editedTimestamp;
+string|Val.Null nonce;
+string|Val.Null webhookId;
+bool|Val.Null pinned;
+```
+```pike
 void create(Client client, mapping data);
 ```
 ### Permission
+```pike
+int allow;
+int deny;
+string type;
+string id;
+GuildMember|Role|Val.Null overwriteable;
+```
 ```pike
 void create(Client client, mapping data, Guild|void guild);
 ```
 ### Presence
 ```pike
+Activity game;
+```
+```pike
 void create(mapping data);
 ```
 ### Reaction
+```pike
+int count;
+bool me;
+ReactionEmoji emoji;
+User|string user;
+Message message;
+```
 ```pike
 void create(Client c, Message msg, mapping data);
 ```
 ### ReactionEmoji
 ```pike
+string|Val.Null id;
+string name;
+bool animated;
+Reaction reaction;
+```
+```pike
 void create(Client c, Reaction r, mapping data);
 ```
 ### RegionVoice
 ```pike
+string id;
+string name;
+bool vip;
+bool optimal;
+bool deprecated;
+bool custom;
+Guild guild;
+```
+```pike
 void create(Client c, Guild g, mapping data);
 ```
 ### Role
+```pike
+string id;
+string name;
+bool hoist;
+bool managed;
+bool mentionable;
+int color;
+int position;
+int permissions;
+protected Client client;
+```
 ```pike
 void create(Client c, Guild g, mapping data);
 ```
@@ -246,12 +527,34 @@ bool ownPermission(string|int perm);
 ```
 ### User
 ```pike
+string id;
+string username;
+string discriminator;
+string locale;
+string|Val.Null avatar;
+string email;
+bool bot;
+bool mfa_enabled;
+bool verified;
+int flags;
+int premiumType;
+```
+```pike
 void create(Client c, mapping data);
 ```
 ```pike
 string whenCreated();
 ```
 ### APIManager
+```pike
+inherit RestUtils;
+Protocols.HTTP.Session HTTPSession;
+protected Thread.Mutex globalMutex;
+protected mapping mutexes;
+protected Client client;
+protected RestUtils restUtils;
+int retry_after;
+```
 ```pike
 void create(Client c);
 ```
@@ -425,6 +728,20 @@ void leaveGuild(string guildId);
 ```
 ### EmbedConstructor
 ```pike
+string|Val.Null title;
+string|Val.Null type;
+string|Val.Null description;
+string|Val.Null url;
+string|Val.Null timestamp;
+int|Val.Null color;
+mapping|Val.Null footer;
+mapping|Val.Null image;
+mapping|Val.Null thumbnail;
+mapping|Val.Null video;
+mapping|Val.Null provider;
+mapping|Val.Null author;
+```
+```pike
 void create();}
 ```
 ```pike
@@ -471,9 +788,15 @@ mapping construct();
 ```
 ### EventUtils
 ```pike
+EventHandlers handlers;
+```
+```pike
 void handle(string event, function handler);
 ```
 ### Gallon
+```pike
+inherit Mapping;
+```
 ```pike
 void create(mapping i);
 ```
@@ -509,12 +832,17 @@ mixed lookFor(string property, mixed value);
 ```
 ### Misc
 ```pike
+mapping clonedData;
+bool first;
+```
+```pike
 array mappingDiff(mapping|object a, mapping|object b);
 ```
 ```pike
 void fixNullables(mixed instance, mixed data);
 ```
 ### Permission
+```
 ```pike
 int own(int permissions, string|int perm);
 ```
@@ -525,6 +853,7 @@ int add(int permissions, array permsToOverwrite);
 int remove(int permissions, array permsToOverwrite);
 ```
 ### RestUtils
+```
 ```pike
 mixed getChannelAccordingToType(int type, mapping data, Client client, void|Guild g);
 ```
@@ -550,6 +879,7 @@ Role fetchCacheRole(string roleId, Client client, Guild|void guild);
 GuildMember fetchCacheGuildMember(string memberId, Client client, Guild|void guild);
 ```
 ### Snowflake
+```
 ```pike
 mapping extractData(string id);
 ```
