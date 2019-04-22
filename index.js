@@ -63,7 +63,7 @@ function constructCodeBlock(data) {
 
 function constructClassFields(data) {
   let str = [
-    "#### Class variables"
+    "#### Class variables",
     "```pike",
   ];
 

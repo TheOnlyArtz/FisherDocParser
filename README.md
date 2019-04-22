@@ -1,5 +1,6 @@
 
 ### EventDispatcher
+#### Class variables
 ```pike
 WSHandler wsHandler;
 Client client;
@@ -8,6 +9,8 @@ protected RestUtils restUtils;
 array diffs;
 Emoji cached;
 ```
+#### Method Signatures
+
 ```pike
 void create(WSHandler w);
 ```
@@ -108,6 +111,7 @@ void typingStart(mapping data);
 void userUpdate(mapping data);
 ```
 ### EventHandlers
+#### Class variables
 ```pike
 array ready;
 array channelCreate;
@@ -143,13 +147,18 @@ array userUpdate;
 array voiceStateUpdate;
 array voiceServerUpdate;
 ```
+#### Method Signatures
+
 ```pike
 void create();
 ```
 ### GatewayDispatcher
+#### Class variables
 ```pike
 WSHandler wsHandler;
 ```
+#### Method Signatures
+
 ```pike
 void create(WSHandler w);
 ```
@@ -166,12 +175,15 @@ void handleInvalidSessionEvent();
 void handleReconnectionRequest();
 ```
 ### WSHandler
+#### Class variables
 ```pike
 Client client;
 WSManager wsManager;
 EventDispatcher eventDispatcher;
 GatewayDispatcher gatewayDispatcher;
 ```
+#### Method Signatures
+
 ```pike
 void create(WSManager w);
 ```
@@ -179,6 +191,7 @@ void create(WSManager w);
 void handle(mapping a);
 ```
 ### WSManager
+#### Class variables
 ```pike
 Client client;
 string wsSessionID;
@@ -191,6 +204,8 @@ int sequence;
 WSHandler wsHandler;
 Protocols.WebSocket.Connection|Val.Null ws;
 ```
+#### Method Signatures
+
 ```pike
 void create(Client c);
 ```
@@ -204,6 +219,7 @@ void onopen();
 void heartbeat(int ms);
 ```
 ### Activity
+#### Class variables
 ```pike
 string name;
 int type; // see activity type docs
@@ -217,41 +233,56 @@ ActivityAssets|Val.Null assets;
 ActivitySecrets|Val.Null secrets;
 bool instance;
 ```
+#### Method Signatures
+
 ```pike
 void create(mapping data);
 ```
 ### ActivityAssets
+#### Class variables
 ```pike
 string largeImage;
 string largeText;
 string smallImage;
 ```
+#### Method Signatures
+
 ```pike
 void create(mapping data);
 ```
 ### ActivityParty
+#### Class variables
 ```pike
 string id;
 ```
+#### Method Signatures
+
 ```pike
 void create(mapping data);
 ```
 ### ActivitySecrets
+#### Class variables
 ```pike
 string join;
 string spectate;
 ```
+#### Method Signatures
+
 ```pike
 void create(mapping data);
 ```
 ### ActivityTimestamps
+#### Class variables
 ```pike
 int start;
 ```
+#### Method Signatures
+
 ```pike
 void create(mapping data);
 ```
 ### Attachment
+#### Class variables
 ```pike
 string id;
 string filename;
@@ -261,42 +292,57 @@ string proxyUrl;
 int|Val.Null height;
 int|Val.Null width;
 ```
+#### Method Signatures
+
 ```pike
 void create(Client c, mapping data);
 ```
 ### Channel
+#### Class variables
 ```pike
 string id;
 ```
+#### Method Signatures
+
 ```pike
 void create(mapping data);
 ```
 ### ChannelCategory
+#### Class variables
 ```pike
 ```
+#### Method Signatures
+
 ```pike
 void create(Client c, mapping data, void|Guild g);
 ```
 ### ChannelDM
+#### Class variables
 ```pike
 string lastMessageId;
 int type;
 string id;
 Gallon recipients;
 ```
+#### Method Signatures
+
 ```pike
 void create(Client c, mapping data);
 ```
 ### ChannelVoice
+#### Class variables
 ```pike
 inherit GuildChannel;
 bool nsfw;
 int userLimit;
 ```
+#### Method Signatures
+
 ```pike
 void create(Client c, mapping data, void|Guild g);
 ```
 ### ClientUser
+#### Class variables
 ```pike
 string avatar;
 string discriminator;
@@ -308,6 +354,8 @@ bool mfaEnabled;
 mapping presence;
 string | Val.Null email;
 ```
+#### Method Signatures
+
 ```pike
 void create(Client c, mapping data);
 ```
@@ -318,6 +366,7 @@ string whenCreated();
 void newPresence(mapping options);
 ```
 ### Emoji
+#### Class variables
 ```pike
 string name;
 Gallon roles;
@@ -328,10 +377,13 @@ User|Val.Null user;
 bool|Val.Null managed;
 bool|Val.Null animated;
 ```
+#### Method Signatures
+
 ```pike
 void create(Client c, Guild g, mapping data);
 ```
 ### Guild
+#### Class variables
 ```pike
 string id;
 string name;
@@ -369,10 +421,13 @@ Gallon members;
 Gallon channels;
 Gallon presences;
 ```
+#### Method Signatures
+
 ```pike
 void create(Client c, mapping data);
 ```
 ### GuildIntegration
+#### Class variables
 ```pike
 string id;
 string name;
@@ -386,10 +441,13 @@ int expireGracePeriod;
 User user;
 mapping account;
 ```
+#### Method Signatures
+
 ```pike
 void create(Client client, mapping data);
 ```
 ### GuildMember
+#### Class variables
 ```pike
 User user;
 string|Val.Null nickname;
@@ -400,20 +458,26 @@ bool muted;
 Presence presence;
 Guild guild;
 ```
+#### Method Signatures
+
 ```pike
 void create(Client c, Guild g, mapping data);
 ```
 ### GuildTextChannel
+#### Class variables
 ```pike
 inherit GuildChannel;
 string topic;
 string lastMessageId;
 Gallon messages;
 ```
+#### Method Signatures
+
 ```pike
 void create(Client c, mapping data, void|Guild g);
 ```
 ### Invite
+#### Class variables
 ```pike
 string code;
 Guild|Val.Null guild;
@@ -429,10 +493,13 @@ int maxAge;
 bool temporary;
 string createdAt;
 ```
+#### Method Signatures
+
 ```pike
 void create(Client client, mapping data);
 ```
 ### Message
+#### Class variables
 ```pike
 string|Val.Null id;
 GuildTextChannel channel;// TO DO TEXTCHANNEL
@@ -452,10 +519,13 @@ string|Val.Null nonce;
 string|Val.Null webhookId;
 bool|Val.Null pinned;
 ```
+#### Method Signatures
+
 ```pike
 void create(Client client, mapping data);
 ```
 ### Permission
+#### Class variables
 ```pike
 int allow;
 int deny;
@@ -463,17 +533,23 @@ string type;
 string id;
 GuildMember|Role|Val.Null overwriteable;
 ```
+#### Method Signatures
+
 ```pike
 void create(Client client, mapping data, Guild|void guild);
 ```
 ### Presence
+#### Class variables
 ```pike
 Activity game;
 ```
+#### Method Signatures
+
 ```pike
 void create(mapping data);
 ```
 ### Reaction
+#### Class variables
 ```pike
 int count;
 bool me;
@@ -481,20 +557,26 @@ ReactionEmoji emoji;
 User|string user;
 Message message;
 ```
+#### Method Signatures
+
 ```pike
 void create(Client c, Message msg, mapping data);
 ```
 ### ReactionEmoji
+#### Class variables
 ```pike
 string|Val.Null id;
 string name;
 bool animated;
 Reaction reaction;
 ```
+#### Method Signatures
+
 ```pike
 void create(Client c, Reaction r, mapping data);
 ```
 ### RegionVoice
+#### Class variables
 ```pike
 string id;
 string name;
@@ -504,10 +586,13 @@ bool deprecated;
 bool custom;
 Guild guild;
 ```
+#### Method Signatures
+
 ```pike
 void create(Client c, Guild g, mapping data);
 ```
 ### Role
+#### Class variables
 ```pike
 string id;
 string name;
@@ -519,6 +604,8 @@ int position;
 int permissions;
 protected Client client;
 ```
+#### Method Signatures
+
 ```pike
 void create(Client c, Guild g, mapping data);
 ```
@@ -526,6 +613,7 @@ void create(Client c, Guild g, mapping data);
 bool ownPermission(string|int perm);
 ```
 ### User
+#### Class variables
 ```pike
 string id;
 string username;
@@ -539,6 +627,8 @@ bool verified;
 int flags;
 int premiumType;
 ```
+#### Method Signatures
+
 ```pike
 void create(Client c, mapping data);
 ```
@@ -546,6 +636,7 @@ void create(Client c, mapping data);
 string whenCreated();
 ```
 ### APIManager
+#### Class variables
 ```pike
 inherit RestUtils;
 Protocols.HTTP.Session HTTPSession;
@@ -555,6 +646,8 @@ protected Client client;
 protected RestUtils restUtils;
 int retry_after;
 ```
+#### Method Signatures
+
 ```pike
 void create(Client c);
 ```
@@ -727,6 +820,7 @@ User getUser(string userId);
 void leaveGuild(string guildId);
 ```
 ### EmbedConstructor
+#### Class variables
 ```pike
 string|Val.Null title;
 string|Val.Null type;
@@ -741,6 +835,8 @@ mapping|Val.Null video;
 mapping|Val.Null provider;
 mapping|Val.Null author;
 ```
+#### Method Signatures
+
 ```pike
 void create();}
 ```
@@ -787,16 +883,22 @@ this_program addField(mapping f);
 mapping construct();
 ```
 ### EventUtils
+#### Class variables
 ```pike
 EventHandlers handlers;
 ```
+#### Method Signatures
+
 ```pike
 void handle(string event, function handler);
 ```
 ### Gallon
+#### Class variables
 ```pike
 inherit Mapping;
 ```
+#### Method Signatures
+
 ```pike
 void create(mapping i);
 ```
@@ -831,10 +933,13 @@ void reset();
 mixed lookFor(string property, mixed value);
 ```
 ### Misc
+#### Class variables
 ```pike
 mapping clonedData;
 bool first;
 ```
+#### Method Signatures
+
 ```pike
 array mappingDiff(mapping|object a, mapping|object b);
 ```
@@ -842,7 +947,10 @@ array mappingDiff(mapping|object a, mapping|object b);
 void fixNullables(mixed instance, mixed data);
 ```
 ### Permission
+#### Class variables
 ```
+#### Method Signatures
+
 ```pike
 int own(int permissions, string|int perm);
 ```
@@ -853,7 +961,10 @@ int add(int permissions, array permsToOverwrite);
 int remove(int permissions, array permsToOverwrite);
 ```
 ### RestUtils
+#### Class variables
 ```
+#### Method Signatures
+
 ```pike
 mixed getChannelAccordingToType(int type, mapping data, Client client, void|Guild g);
 ```
@@ -879,7 +990,10 @@ Role fetchCacheRole(string roleId, Client client, Guild|void guild);
 GuildMember fetchCacheGuildMember(string memberId, Client client, Guild|void guild);
 ```
 ### Snowflake
+#### Class variables
 ```
+#### Method Signatures
+
 ```pike
 mapping extractData(string id);
 ```
