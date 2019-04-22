@@ -49,6 +49,7 @@ function constructReadme(data) {
   let start = `\n### ${data.class}\n`;
   // console.log(data);
   start += constructClassFields(data.classFields);
+  start += "\n#### Method Signatures\n";
   data.signatures.forEach(line => {
     start += `\n${constructCodeBlock(line)}`;
   });
@@ -62,6 +63,7 @@ function constructCodeBlock(data) {
 
 function constructClassFields(data) {
   let str = [
+    "#### Class variables"
     "```pike",
   ];
 
