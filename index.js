@@ -55,7 +55,7 @@ function constructReadme(data) {
 }
 
 function constructCodeBlock(data) {
-  return "```pike\n"+data.trim()+"\n```";
+  return "```pike\n"+data.trim().replace(" {", ";")+"\n```";
 }
 
 function constructHeaders(functionName) {
