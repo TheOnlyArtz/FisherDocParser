@@ -36,7 +36,8 @@ async function metaData() {
       let toWrite = {
         "class": pikeFile.replace(".pike", ""),
         "signatures": separateLines.filter(line => line.match(methodSignatureRegex)),
-        "classFields": separateLines.filter(line => line.match(classFieldsRegex))
+        "classFields": separateLines.filter(line => line.match(classFieldsRegex)),
+        "protectedClassFields": separateLines.filter(line => line.match(protectedClassFieldsRegex)),
       };
 
       return toWrite;
@@ -48,7 +49,7 @@ function constructReadme(data) {
   if (!data.signatures.length) return "";
   let start = `\n### ${data.class}\n`;
   // console.log(data);
-  start += constructClassFields(data.classFields);
+  start += constructClassFields(data);
   start += "\n#### Method Signatures\n";
   data.signatures.forEach(line => {
     start += `\n${constructCodeBlock(line)}`;
@@ -65,11 +66,17 @@ function constructClassFields(data) {
   let str = [
     "#### Class variables",
     "```pike",
+    "// Public"
   ];
 
-  data.forEach(variable => {
+  data.classFields.forEach(variable => {
     str.push(variable.trim() + "");
-  })
+  });
+
+  data.protectedClassFields.forEach(variable => {
+    str.push(variable.trim() + "");
+  });
+  
   str[str.length - 1] = "```"
 
   return str.join("\n");
