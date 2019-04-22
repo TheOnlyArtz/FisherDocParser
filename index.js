@@ -1,7 +1,7 @@
 const fs = require("mz/fs");
 
 const PATH = "C:/Users/win10/Desktop/Fisher";
-const methodSignatureRegex = /^([ \t]*)([A-z0-9]+|([A-z0-9](\||))+) ([A-z0-9]*)(\(| \()((([A-z](\||))+ [A-z]+(, |,|))*|| )\) {/g;
+const methodSignatureRegex = /^([ \t]*)([A-z0-9]+|([A-z0-9](\||\([A-z0-9]*\)(\||)|))+) ([A-z0-9]*)(\(| \()((([A-z](\||))+ [A-z]+(, |,|))*|| )\) {/g;
 const classRegex = /class [A-z0-9]*/g;
 const classFieldsRegex = /^([ \t]*)([A-z0-9]+)(?<!return)(?<!inherit) ([A-z0-9]*)\;$/g;
 const protectedClassFieldsRegex = /^([ \t]*)protected ([A-z0-9]*) ([A-z0-9]*)\;$/g;
@@ -72,7 +72,7 @@ function constructClassFields(data) {
   data.classFields.forEach(variable => {
     str.push(variable.trim() + "");
   });
-
+  
   if (data.protectedClassFields.length != 0) {
     str.push("// Private");
   }

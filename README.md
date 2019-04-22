@@ -669,6 +669,9 @@ mixed modifyChannel(string id, mapping payload);
 mixed deleteChannel(string id);
 ```
 ```pike
+array(Message)|void getChannelMessages(string id, mapping payload);
+```
+```pike
 Message|void getChannelMessage(string channelId, string msgId);
 ```
 ```pike
@@ -699,16 +702,25 @@ void bulkDeleteMessages(string channelId, int amount);
 void editChannelPermissions(string channelId, string|Role|GuildMember roleOrMember, mapping payload);
 ```
 ```pike
+array(Invite) getChannelInvites(string channelId);
+```
+```pike
 Invite createChannelInvite(string channelId, mapping|void payload);
 ```
 ```pike
 void triggerTypingIndicator(string channelId);
 ```
 ```pike
+array(Message) getPinnedMessages(string channelId);
+```
+```pike
 void addPinnedChannelMessage(string channelId, string messageId);
 ```
 ```pike
 void deletePinnedChannelMessage(string channelId, string messageId);
+```
+```pike
+array(Emoji) getGuildEmojis(string guildId);
 ```
 ```pike
 Emoji getGuildEmoji(string guildId, string emojiId);
@@ -744,6 +756,9 @@ ChannelVoice|ChannelCategory|GuildTextChannel modifyGuildChannelPosition(string 
 GuildMember getGuildMember(string guildId, string userId);
 ```
 ```pike
+array(GuildMember) getGuildMembers(string guildId);
+```
+```pike
 void modifyGuildMember(string guildId, string userId, mapping payload);
 ```
 ```pike
@@ -759,6 +774,9 @@ void deleteGuildMemberRole(string guildId, string userId, string roleId);
 void removeGuildMember(string guildId, string userId);
 ```
 ```pike
+array(mapping) getGuildBans(string guildId);
+```
+```pike
 mapping getGuildBan(string guildId, string userId);
 ```
 ```pike
@@ -766,6 +784,9 @@ void createGuildBan(string guildId, string userId, mapping|void payload);
 ```
 ```pike
 void removeGuildBan(string guildId, string userId);
+```
+```pike
+array(Role) getGuildRoles(string guildId);
 ```
 ```pike
 Role getGuildRole(string guildId, string roleId);
@@ -784,6 +805,15 @@ int getGuildPruneCount(string guildId, int|string days);
 ```
 ```pike
 int beginGuildPrune(string guildId, mapping payload);
+```
+```pike
+array(RegionVoice) getGuildVoiceRegions(string guildId);
+```
+```pike
+array(Invite) getGuildInvites(string guildId);
+```
+```pike
+array(GuildIntegration) getGuildIntegrations(string guildId);
 ```
 ```pike
 GuildIntegration createGuildIntegration(string guildId, mapping payload);
@@ -817,6 +847,9 @@ void deleteInvite(string inviteCode);
 ```
 ```pike
 User getUser(string userId);
+```
+```pike
+array(User) getCurrentUserGuilds();
 ```
 ```pike
 void leaveGuild(string guildId);
