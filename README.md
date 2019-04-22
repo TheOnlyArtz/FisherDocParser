@@ -1,3 +1,4 @@
+## This was automatically generated!
 
 ### EventDispatcher
 #### Class variables

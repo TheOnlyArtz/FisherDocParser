@@ -9,7 +9,7 @@ const protectedClassFieldsRegex = /([ \t]*)protected ([A-z0-9]*) ([A-z0-9]*)\;/g
 (async () => {
   try {
     let t = await metaData();
-    let final = "";
+    let final = "## This was automatically generated!\n";
     t.flat().forEach(s => {
       if (s) {
         final += constructReadme(s);
