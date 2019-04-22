@@ -244,9 +244,6 @@ void create(Client c, Guild g, mapping data);
 ```pike
 bool ownPermission(string|int perm);
 ```
-```pike
-return PermissionUtils()->own(permissions, perm);
-```
 ### User
 ```pike
 void create(Client c, mapping data);
@@ -260,9 +257,6 @@ void create(Client c);
 ```
 ```pike
 mapping getHeaders();
-```
-```pike
-return Constants().API->get("headers")(client);
 ```
 ```pike
 bool hasError(mixed|void response);
