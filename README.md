@@ -702,6 +702,9 @@ void bulkDeleteMessages(string channelId, int amount);
 void editChannelPermissions(string channelId, string|Role|GuildMember roleOrMember, mapping payload);
 ```
 ```pike
+void deleteChannelPermission(string channelId, string overwriteId);
+```
+```pike
 array(Invite) getChannelInvites(string channelId);
 ```
 ```pike
