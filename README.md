@@ -638,6 +638,18 @@ void create(Client c, mapping data);
 ```pike
 string whenCreated();
 ```
+### Webhook
+#### Class variables
+```pike
+string id;
+mixed channel;
+string token;
+```
+#### Method Signatures
+
+```pike
+void create(Client client, mapping data);
+```
 ### APIManager
 #### Class variables
 ```pike
@@ -856,6 +868,36 @@ array(User) getCurrentUserGuilds();
 ```
 ```pike
 void leaveGuild(string guildId);
+```
+```pike
+Webhook createWebhook(string channelId, mapping payload);
+```
+```pike
+array(Webhook) getChannelWebhooks(string channelId);
+```
+```pike
+array(Webhook) getGuildWebhooks(string channelId);
+```
+```pike
+Webhook getWebhook(string webhookId);
+```
+```pike
+Webhook getWebhookWithToken(string webhookId, string token);
+```
+```pike
+Webhook modifyWebhook(string webhookId, mapping payload);
+```
+```pike
+Webhook modifyWebhookWithToken(string webhookId, string token, mapping payload);
+```
+```pike
+void deleteWebhook(string webhookId);
+```
+```pike
+void deleteWebhookWithToken(string webhookId, string webhookToken);
+```
+```pike
+void executeWebhook(string webhookId, string webhookToken, string content, mapping additional);
 ```
 ### EmbedConstructor
 #### Class variables
