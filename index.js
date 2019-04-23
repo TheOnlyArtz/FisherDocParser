@@ -3,7 +3,7 @@ const fs = require("mz/fs");
 const PATH = "C:/Users/win10/Desktop/Fisher";
 const methodSignatureRegex = /^([ \t]*)([A-z0-9]+|([A-z0-9](\||\([A-z0-9]*\)(\||)|))+) ([A-z0-9]*)(\(| \()((([A-z](\||))+ [A-z]+(, |,|))*|| )\) {/g;
 const classRegex = /class [A-z0-9]*/g;
-const classFieldsRegex = /^([ \t]*)([A-z0-9]+)(?<!return)(?<!inherit) ([A-z0-9]*)\;$/g;
+const classFieldsRegex = /^([ \t]*)(([A-z0-9](\.)?([A-z0-9](\|)|)*)+)(?<!return)(?<!inherit) ([A-z0-9]*)\;$/g
 const protectedClassFieldsRegex = /^([ \t]*)protected ([A-z0-9]*) ([A-z0-9]*)\;$/g;
 
 (async () => {
@@ -33,13 +33,13 @@ async function metaData() {
       if (!pikeFile.includes(".pike")) return;
       let readableFile = await fs.readFile(`${PATH}/${p}/${pikeFile}`);
       let separateLines = readableFile.toString().split("\r\n");
+      // console.log(separateLines.filter(s => classFieldsRegex.test(s)));
       let toWrite = {
         "class": pikeFile.replace(".pike", ""),
         "signatures": separateLines.filter(line => line.match(methodSignatureRegex)),
         "classFields": separateLines.filter(line => line.match(classFieldsRegex)),
         "protectedClassFields": separateLines.filter(line => line.match(protectedClassFieldsRegex)),
       };
-
       return toWrite;
     }));
   }));
@@ -72,7 +72,7 @@ function constructClassFields(data) {
   data.classFields.forEach(variable => {
     str.push(variable.trim() + "");
   });
-  
+
   if (data.protectedClassFields.length != 0) {
     str.push("// Private");
   }

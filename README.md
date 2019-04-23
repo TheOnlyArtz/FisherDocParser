@@ -207,6 +207,7 @@ int heartbeat_interval;
 int perv_heartbeat_ack;
 int sequence;
 WSHandler wsHandler;
+Protocols.WebSocket.Connection|Val.Null ws;
 mapping payload;
 // Private
 protected int curr_heartbeat_time;
@@ -234,6 +235,11 @@ string name;
 string url;
 ActivityTimestamps timestamps;
 string applicationId;
+string|Val.Null details;
+string|Val.Null state;
+ActivityParty|Val.Null party;
+ActivityAssets|Val.Null assets;
+ActivitySecrets|Val.Null secrets;
 bool instance;
 int flags;
 ```
@@ -298,6 +304,8 @@ string filename;
 int size;
 string url;
 string proxyUrl;
+int|Val.Null height;
+int|Val.Null width;
 // Private
 protected Client client;
 ```
@@ -385,6 +393,11 @@ void newPresence(mapping options);
 string name;
 Gallon roles;
 Guild guild;
+bool|Val.Null requireColons;
+string|Val.Null id;
+User|Val.Null user;
+bool|Val.Null managed;
+bool|Val.Null animated;
 // Private
 protected Client client;
 ```
@@ -403,6 +416,16 @@ string ownerId;
 string region;
 string widgetChannelId;
 string joinedAt;
+string|Val.Null icon;
+string|Val.Null splash;
+string|Val.Null afkChannelId;
+string|Val.Null embedChannelId;
+string|Val.Null applicationId;
+string|Val.Null systemChannelId;
+string|Val.Null banner;
+string|Val.Null description;
+string|Val.Null vanityUrlCode;
+int|Val.Null maxPresences;
 bool embedEnabled;
 bool owner;
 bool widgetEnabled;
@@ -456,6 +479,7 @@ void create(Client client, mapping data);
 ```pike
 // Public
 User user;
+string|Val.Null nickname;
 Gallon roles;
 string joinedAt;
 bool deafend;
@@ -489,7 +513,12 @@ void create(Client c, mapping data, void|Guild g);
 #### Class variables
 ```pike
 string code;
+Guild|Val.Null guild;
 mixed channel;
+User|Val.Null targetUser;
+int|Val.Null targetUserType;
+int|Val.Null approximatePresenceCount;
+int|Val.Null approximateMemberCount;
 User inviter;
 int uses;
 int maxUses;
@@ -506,7 +535,22 @@ void create(Client client, mapping data);
 ### Message
 #### Class variables
 ```pike
+string|Val.Null id;
+User|Val.Null author;
+string|Val.Null content;
+string|Val.Null timestamp;
+bool|Val.Null tts;
+bool|Val.Null mentionEveryone;
+Gallon|Val.Null attachments;
 array embeds;
+Gallon|Val.Null reactions;
+GuildMember|Val.Null member;
+Guild|Val.Null guild;
+string|Val.Null editedTimestamp;
+string|Val.Null nonce;
+string|Val.Null webhookId;
+bool|Val.Null pinned;
+int|Val.Null type;
 ```
 #### Method Signatures
 
@@ -521,6 +565,7 @@ int allow;
 int deny;
 string type;
 string id;
+GuildMember|Role|Val.Null overwriteable;
 // Private
 protected Client client;
 ```
@@ -533,6 +578,7 @@ void create(Client client, mapping data, Guild|void guild);
 #### Class variables
 ```pike
 Activity game;
+string|int status;
 ```
 #### Method Signatures
 
@@ -546,6 +592,7 @@ void create(mapping data);
 int count;
 bool me;
 ReactionEmoji emoji;
+User|string user;
 Message message;
 // Private
 protected Client client;
@@ -559,6 +606,7 @@ void create(Client c, Message msg, mapping data);
 #### Class variables
 ```pike
 // Public
+string|Val.Null id;
 string name;
 bool animated;
 Reaction reaction;
@@ -621,6 +669,7 @@ string id;
 string username;
 string discriminator;
 string locale;
+string|Val.Null avatar;
 string email;
 bool bot;
 bool mfa_enabled;
@@ -642,7 +691,11 @@ string whenCreated();
 #### Class variables
 ```pike
 string id;
+Guild|Val.Null guild;
 mixed channel;
+User|Val.Null user;
+string|Val.Null name;
+string|Val.Null avatar;
 string token;
 ```
 #### Method Signatures
@@ -654,7 +707,9 @@ void create(Client client, mapping data);
 #### Class variables
 ```pike
 // Public
+Protocols.HTTP.Session HTTPSession;
 int retry_after;
+Protocols.HTTP.Query response;
 // Private
 protected mapping mutexes;
 protected Client client;
@@ -902,11 +957,24 @@ void executeWebhook(string webhookId, string webhookToken, string content, mappi
 ### EmbedConstructor
 #### Class variables
 ```pike
+string|Val.Null title;
+string|Val.Null type;
+string|Val.Null description;
+string|Val.Null url;
+string|Val.Null timestamp;
+int|Val.Null color;
+mapping|Val.Null footer;
+mapping|Val.Null image;
+mapping|Val.Null thumbnail;
+mapping|Val.Null video;
+mapping|Val.Null provider;
+mapping|Val.Null author;
+array|Val.Null fields;
 ```
 #### Method Signatures
 
 ```pike
-void create();}
+void create();
 ```
 ```pike
 this_program assignTitle(string t);
