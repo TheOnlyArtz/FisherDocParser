@@ -9,13 +9,16 @@ const protectedClassFieldsRegex = /^([ \t]*)protected ([A-z0-9]*) ([A-z0-9]*)\;$
 (async () => {
   try {
     let t = await metaData();
-    let final = "## This was automatically generated!\n";
+    let hyperLinks = ["## This was automatically generated!\n"];
+    let content = [];
     t.flat().forEach(s => {
       if (s) {
-        final += constructReadme(s);
+        hyperLinks.push(`- [${s.class}](https://github.com/theonlyartz/FisherDocParser/#${s.class})\n`);
+        content.push(constructReadme(s));
       }
     });
-    fs.writeFile("README.md", final);
+    hyperLinks = hyperLinks.concat(content);
+    fs.writeFile("README.md", hyperLinks.join(""));
   } catch(e) {
     console.error(e);
   }
