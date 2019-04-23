@@ -13,7 +13,7 @@ const protectedClassFieldsRegex = /^([ \t]*)protected ([A-z0-9]*) ([A-z0-9]*)\;$
     let content = [];
     t.flat().forEach(s => {
       if (s) {
-        hyperLinks.push(`- [${s.class}](https://github.com/theonlyartz/FisherDocParser/#${s.class})\n`);
+        hyperLinks.push(`- [${s.class}](https://github.com/theonlyartz/FisherDocParser/blob/master/README.md#${s.class})\n`);
         content.push(constructReadme(s));
       }
     });
