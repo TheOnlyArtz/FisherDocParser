@@ -12,7 +12,7 @@ const protectedClassFieldsRegex = /^([ \t]*)protected ([A-z0-9]*) ([A-z0-9]*)\;$
     let hyperLinks = ["## This was automatically generated!\n"];
     let content = [];
     t.flat().forEach(s => {
-      if (s) {
+      if (s && s.path !== "examples") {
         hyperLinks.push(`- [${s.class}](https://github.com/theonlyartz/FisherDocParser/blob/master/README.md#${s.class})\n`);
         content.push(constructReadme(s));
       }
@@ -38,6 +38,7 @@ async function metaData() {
       let separateLines = readableFile.toString().split("\r\n");
       // console.log(separateLines.filter(s => classFieldsRegex.test(s)));
       let toWrite = {
+        "path": p,
         "class": pikeFile.replace(".pike", ""),
         "signatures": separateLines.filter(line => line.match(methodSignatureRegex)),
         "classFields": separateLines.filter(line => line.match(classFieldsRegex)),

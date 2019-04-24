@@ -619,7 +619,7 @@ void create(Client client, mapping data, Guild|void guild);
 ### Presence
 #### Class variables
 ```pike
-Activity game;
+Activity|Val.Null game;
 string|int status;
 ```
 #### Method Signatures
@@ -1037,25 +1037,25 @@ this_program assignTimestamp(string t);
 this_program assignColor(int c);
 ```
 ```pike
-this_program assignFooter(mapping f);
+this_program assignFooter(string text, string|void iconUrl, string|void proxyIconUrl);
 ```
 ```pike
-this_program assignImage(mapping i);
+this_program assignImage(string|void url, string|void proxyUrl, int|void height, int|void width);
 ```
 ```pike
-this_program assignVideo(mapping v);
+this_program assignVideo(string|void url, int|void height, int|void width);
 ```
 ```pike
-this_program assignThumbnail(mapping t);
+this_program assignThumbnail(string|void url, string|void proxyUrl, int|void height, int|void width);
 ```
 ```pike
-this_program assignProvider(mapping p);
+this_program assignProvider(string|void name, string|void url);
 ```
 ```pike
-this_program assignAuthor(mapping a);
+this_program assignAuthor(string|void name, string|void url, string|void iconUrl, string|void proxyIconUrl);
 ```
 ```pike
-this_program addField(mapping f);
+this_program addField(string name, string value, bool|void isInline);
 ```
 ```pike
 mapping construct();
